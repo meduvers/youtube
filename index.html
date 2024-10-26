@@ -14,7 +14,7 @@
     <meta property="og:description"
         content="Introduce la URL de cualquier video de YouTube para obtener sus miniaturas en diferentes resoluciones.">
     <meta property="og:image" content="/icon.svg">
-    <meta property="og:url" content="https://tusitio.com/obtener-miniaturas-youtube">
+    <meta property="og:url" content="https://yt-image.vercel.app/">
     <!-- Cambia el URL a tu sitio web -->
     <meta property="og:type" content="website">
 
@@ -23,7 +23,7 @@
     <meta name="twitter:title" content="Obtener Miniaturas de YouTube">
     <meta name="twitter:description"
         content="Introduce la URL de cualquier video de YouTube para obtener sus miniaturas en diferentes resoluciones.">
-    <meta name="twitter:image" content="https://www.iconsdb.com/icons/preview/red/play-xxl.png">
+    <meta name="twitter:image" content="/icon.svg">
 
     <!-- Enlace a Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -280,10 +280,10 @@
             if (videoId) {
                 const thumbnailContainer = document.getElementById("thumbnailContainer");
                 const thumbnails = [
-                    { resolution: 'maxresdefault', title: 'Máxima Resolución (MaxRes)' },
-                    { resolution: 'hqdefault', title: 'Alta Resolución (HQ)' },
-                    { resolution: 'mqdefault', title: 'Resolución Media (MQ)' },
-                    { resolution: 'sddefault', title: 'Resolución Estándar (SD)' }
+                    { resolution: 'maxresdefault', title: 'Resolución Máxima' },
+                    { resolution: 'hqdefault', title: 'Resolución Alta' },
+                    { resolution: 'mqdefault', title: 'Resolución Media' },
+                    { resolution: 'sddefault', title: 'Resolución Estándar' }
                 ];
 
                 thumbnailContainer.innerHTML = thumbnails.map(({ resolution, title }) => {
@@ -294,7 +294,7 @@
                                 <h3>${title}</h3>
                                 <div class="button-group">
                                     <button onclick="copyToClipboard('${imageUrl}', this)" class="copy-button copy-url-button">
-                                        <i class="fas fa-link"></i> Copiar URL
+                                        <i class="fas fa-link"></i> Copiar
                                     </button>
                                 </div>
                             </div>
