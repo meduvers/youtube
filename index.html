@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obtener Miniaturas de YouTube</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/icon.svg" type="image/png">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Obtener Miniaturas de YouTube">
+    <meta property="og:description"
+        content="Introduce la URL de cualquier video de YouTube para obtener sus miniaturas en diferentes resoluciones.">
+    <meta property="og:image" content="/icon.svg">
+    <meta property="og:url" content="https://tusitio.com/obtener-miniaturas-youtube">
+    <!-- Cambia el URL a tu sitio web -->
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Obtener Miniaturas de YouTube">
+    <meta name="twitter:description"
+        content="Introduce la URL de cualquier video de YouTube para obtener sus miniaturas en diferentes resoluciones.">
+    <meta name="twitter:image" content="https://www.iconsdb.com/icons/preview/red/play-xxl.png">
+
+    <!-- Enlace a Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --primary-hover: #cc0000;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-radius: 12px;
+            --success-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .description {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .search-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        form {
+            display: flex;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 2px solid #e1e1e1;
+            border-radius: var(--border-radius);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .thumbnail-item {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .thumbnail-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .thumbnail-header {
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e1e1e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .thumbnail-header h3 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .thumbnail-content {
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            /* Ajuste de altura para centrar verticalmente */
+            background-color: var(--card-bg);
+        }
+
+        .thumbnail-content img {
+            max-width: 100%;
+            max-height: 100%;
+            /* Limita el alto de la imagen */
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .error-message {
+            text-align: center;
+            color: var(--primary-color);
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
+
+        .copy-button {
+            background-color: #007bff;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .copy-button.success {
+            background-color: var(--success-color);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            form {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .thumbnail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .copy-url-button {
+            background-color: #6c757d;
+        }
+
+        .copy-url-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Obtener Miniaturas de YouTube</h1>
+            <p class="description">Introduce la URL de cualquier video de YouTube para obtener sus miniaturas en
+                diferentes resoluciones</p>
+        </header>
+
+        <div class="search-container">
+            <form id="youtubeForm">
+                <input type="text" id="videoURL" placeholder="Ejemplo: https://www.youtube.com/watch?v=..." required>
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                    Obtener Miniaturas
+                </button>
+            </form>
+        </div>
+
+        <div class="thumbnail-grid" id="thumbnailContainer"></div>
+    </div>
+
+    <script>
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                button.classList.add('success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copiado';
+
+                setTimeout(() => {
+                    button.classList.remove('success');
+                    button.innerHTML = '<i class="fas fa-link"></i> Copiar URL';
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+                alert('No se pudo copiar. Inténtalo de nuevo.');
+            });
+        }
+
+        document.getElementById("youtubeForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const urlInput = document.getElementById("videoURL").value;
+            const videoId = getYouTubeVideoId(urlInput);
+
+            if (videoId) {
+                const thumbnailContainer = document.getElementById("thumbnailContainer");
+                const thumbnails = [
+                    { resolution: 'maxresdefault', title: 'Máxima Resolución (MaxRes)' },
+                    { resolution: 'hqdefault', title: 'Alta Resolución (HQ)' },
+                    { resolution: 'mqdefault', title: 'Resolución Media (MQ)' },
+                    { resolution: 'sddefault', title: 'Resolución Estándar (SD)' }
+                ];
+
+                thumbnailContainer.innerHTML = thumbnails.map(({ resolution, title }) => {
+                    const imageUrl = `https://i.ytimg.com/vi/${videoId}/${resolution}.jpg`;
+                    return `
+                        <div class="thumbnail-item">
+                            <div class="thumbnail-header">
+                                <h3>${title}</h3>
+                                <div class="button-group">
+                                    <button onclick="copyToClipboard('${imageUrl}', this)" class="copy-button copy-url-button">
+                                        <i class="fas fa-link"></i> Copiar URL
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="thumbnail-content">
+                                <img src="${imageUrl}" alt="Thumbnail ${title}">
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                document.getElementById("thumbnailContainer").innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        URL no válida. Por favor, introduce una URL de YouTube válida.
+                    </div>
+                `;
+            }
+        });
+
+        function getYouTubeVideoId(url) {
+            const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+    </script>
+</body>
+
+</html>
